@@ -1,1 +1,129 @@
-<p>navbar works!</p>
+<nav class="navbar fixed-top" style="background-color: transparent">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: white"><img
+        src="/images/logo.JPG"
+        width="60"
+        height="60"
+        alt="logo"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        style="border: none; background: transparent"
+      >
+        <svg viewBox="0 0 32 32" width="32" height="32">
+          <path
+            class="line line-top-bottom"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+            style="stroke: #fff"
+          ></path>
+          <path class="line" style="stroke: #fff" d="M7 16 27 16"></path>
+        </svg>
+      </button>
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+        style="background-color: black"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img
+            src="/images/logo.JPG"
+            width="40"
+            height="40"
+            alt="logo"
+          /></h5>
+          <button
+            type="button"
+            class="btn-close custom-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" [routerLink]="['']" (click)="closeOffcanvas()">Inicio</a>
+            </li>
+            <hr style="color: white;"/>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" [routerLink]="['gallery']" (click)="closeOffcanvas()">tipos de letras</a
+              >
+            </li>
+            <hr style="color: white;"/>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['partys']" (click)="closeOffcanvas()">Calendario de fiestas</a>
+            </li>
+            <hr style="color: white;"/>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['contact']" (click)="closeOffcanvas()">Contacto</a>
+            </li>
+            <hr style="color: white;"/>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['tarifas']" (click)="closeOffcanvas()">Tarifas</a>
+            </li>
+            <hr style="color: white;"/>
+            @if(activeUser){
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['profile']" (click)="closeOffcanvas()">Mi cuenta</a>
+              </li>
+              <hr style="color: white;"/>
+            }
+            
+            @if(activeUser && activeUser.data.rol === "admin"){
+            <li class="nav-item dropdown"    >
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Menu Admin
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" [routerLink]="['add/party']" (click)="closeOffcanvas()">Añadir fiestas</a></li>
+                <hr style="color: white;"/>
+                <li><a class="dropdown-item"  [routerLink]="['/clients']" (click)="closeOffcanvas()">Clientes</a></li>
+                <!-- <li>
+                    <hr class="dropdown-divider">
+                  </li> -->
+                <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+              </ul>
+            </li>
+            <hr style="color: white;"/>
+          } 
+          @if(!activeUser){
+            <div>
+              <li>
+                <a class="nav-link" [routerLink]="['/login']" (click)="closeOffcanvas()">Login/Register</a>
+              </li>
+              <!-- <hr style="color: white;"/>
+              <li>
+                <a class="nav-link" [routerLink]="['/register']" (click)="closeOffcanvas()">Register</a>
+              </li> -->
+              <hr style="color: white;"/>
+            </div> 
+          }  
+          @if(activeUser){
+            <div>
+              <li>
+                <a class="nav-link" (click)="logout()" (click)="closeOffcanvas()">LogOut</a>
+              </li>
+            </div>     
+          }          
+                <!-- <li>
+                    <hr class="dropdown-divider">
+                  </li> -->
+                <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
