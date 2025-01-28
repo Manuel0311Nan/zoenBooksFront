@@ -1,1 +1,7 @@
-<p>book-gallery works!</p>
+
+@for (book of books; track book.title){
+    <h2>{{ book.title }}</h2>
+    <p>{{ book.description }}</p>
+    <p><strong>Fecha de creación:</strong> {{ book.createdAt }}</p>
+    <hr />
+}
