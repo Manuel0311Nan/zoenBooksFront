@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -14,6 +14,8 @@ import { OffcanvasService } from '../../services/offcanvasService/offcanvas-serv
 export class NavbarComponent {
   currentTheme: any;
   selectedOption: any;
+  lastScrollPosition = 0;
+  isNavbarVisible = true;
     /**
      * usuario activo
      */
@@ -30,6 +32,7 @@ export class NavbarComponent {
       private router: Router,
     ){}
     ngOnInit(): void {  
+      this.updateNavbarVisibility();
 
       // this.usersService.getCurrentUser().subscribe((user) => {
       //   console.log(user);
@@ -44,7 +47,38 @@ export class NavbarComponent {
       //   }
       // });
     }
-    
+    @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const currentScrollPosition = window.pageYOffset;
+
+    // Ocultar el navbar al hacer scroll hacia abajo
+    if (currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 50) {
+      this.isNavbarVisible = false;
+    }
+    // Mostrar el navbar al hacer scroll hacia arriba
+    else if (currentScrollPosition < this.lastScrollPosition) {
+      this.isNavbarVisible = true;
+    }
+
+    this.lastScrollPosition = currentScrollPosition;
+
+    // Actualiza las clases del navbar
+    this.updateNavbarVisibility();
+  }
+
+  // Agregar o quitar clases al navbar dinámicamente
+  updateNavbarVisibility(): void {
+    const navbar = document.getElementById('main-navbar');
+    if (navbar) {
+      if (this.isNavbarVisible) {
+        navbar.classList.remove('invisible');
+        navbar.classList.add('visible');
+      } else {
+        navbar.classList.remove('visible');
+        navbar.classList.add('invisible');
+      }
+    }
+  }
     
     ngAfterViewInit(): void {
       const offcanvasElement = document.getElementById('offcanvasNavbar');
