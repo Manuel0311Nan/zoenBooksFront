@@ -1,7 +1,61 @@
-
-@for (book of books; track book.title){
-    <h2>{{ book.title }}</h2>
-    <p>{{ book.description }}</p>
-    <p><strong>Fecha de creación:</strong> {{ book.createdAt }}</p>
-    <hr />
-}
+<div class="container">
+    <h2 class="text-center">Lista de Libros</h2>
+  
+    <!-- Mostrar Skeleton mientras los datos cargan -->
+    <div *ngIf="isLoading; else bookList">
+      <div class="row">
+        @for (i of [1,2,3,4]; track i){
+          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="rounded border border-secondary p-3 bg-light">
+              <div class="d-flex align-items-center mb-3">
+                <p-skeleton shape="circle" size="4rem" class="me-3"></p-skeleton>
+                <div>
+                  <p-skeleton width="10rem" class="mb-2"></p-skeleton>
+                  <p-skeleton width="5rem" class="mb-2"></p-skeleton>
+                  <p-skeleton height=".5rem"></p-skeleton>
+                </div>
+              </div>
+              <p-skeleton width="100%" height="150px"></p-skeleton>
+              <div class="d-flex justify-content-between mt-3">
+                <p-skeleton width="4rem" height="2rem"></p-skeleton>
+                <p-skeleton width="4rem" height="2rem"></p-skeleton>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  
+    <!-- Mostrar los datos reales cuando isLoading sea false -->
+    <ng-template #bookList>
+      <div *ngIf="books.length > 0; else preloadContent">
+        <div class="row">
+          @for (book of books; track book.title){
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+              <div class="book-card p-3 bg-white shadow-sm">
+                <img [src]="book.image" alt="Imagen de libro" class="book-img mb-2"/>
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.description }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </ng-template>
+  
+    <!-- Contenido precargado si la API no responde en 60s -->
+    <ng-template #preloadContent>
+      <div class="row">
+        @for (book of placeholderBooks; track book.title){
+          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="book-card p-3 bg-light shadow-sm">
+              <img [src]="book.image" alt="Imagen de libro" class="book-img mb-2"/>
+              <h3>{{ book.title }}</h3>
+              <p>{{ book.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </ng-template>
+  </div>
+  
