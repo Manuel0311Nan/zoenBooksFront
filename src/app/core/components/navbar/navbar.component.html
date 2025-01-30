@@ -26,47 +26,36 @@
         </svg>
       </button>
       <div
-        class="offcanvas offcanvas-end"
+        class="offcanvas offcanvas-end "
         tabindex="-1"
         id="offcanvasNavbar"
         aria-labelledby="offcanvasNavbarLabel"
-        style="background-color: black"
+        style="background-color: #a855f7;"
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img
-            src="/images/logo.JPG"
-            width="40"
-            height="40"
-            alt="logo"
-          /></h5>
+        <div class="offcanvas-header backgroundNavbar">
           <button
             type="button"
-            class="btn-close custom-close"
+            class="btn-close custom-close backgroundNavbar"
             data-bs-dismiss="offcanvas"
             aria-label="Close"
           ></button>
         </div>
         <div class="">
-          <ul class="navbar-nav justify-content-end flex-grow-1 p-3">
+          <ul class="navbar-nav justify-content-end flex-grow-1 p-3 mt-2 backgroundNavbar">
             <li class="nav-item">
               <a class="nav-link" aria-current="page" [routerLink]="['']" (click)="closeOffcanvas()">Inicio</a>
             </li>
             <hr style="color: white;"/>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" [routerLink]="['gallery']" (click)="closeOffcanvas()">tipos de letras</a
-              >
+              <a class="nav-link" aria-current="page" [routerLink]="['gallery']" (click)="closeOffcanvas()">Libros</a>
             </li>
             <hr style="color: white;"/>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['partys']" (click)="closeOffcanvas()">Calendario de fiestas</a>
+              <a class="nav-link" [routerLink]="['yggdrasil']" (click)="closeOffcanvas()">Yggdrasil</a>
             </li>
             <hr style="color: white;"/>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['contact']" (click)="closeOffcanvas()">Contacto</a>
-            </li>
-            <hr style="color: white;"/>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['tarifas']" (click)="closeOffcanvas()">Tarifas</a>
+              <a class="nav-link" [routerLink]="['tarifas']" (click)="closeOffcanvas()">Contacto</a>
             </li>
             <hr style="color: white;"/>
             @if(activeUser){
@@ -74,47 +63,22 @@
                 <a class="nav-link" [routerLink]="['profile']" (click)="closeOffcanvas()">Mi cuenta</a>
               </li>
               <hr style="color: white;"/>
-            }
-            
-            @if(activeUser && activeUser.data.rol === "admin"){
-            <li class="nav-item dropdown"    >
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Menu Admin
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['add/party']" (click)="closeOffcanvas()">Añadir fiestas</a></li>
-                <hr style="color: white;"/>
-                <li><a class="dropdown-item"  [routerLink]="['/clients']" (click)="closeOffcanvas()">Clientes</a></li>
-                <!-- <li>
-                    <hr class="dropdown-divider">
-                  </li> -->
-                <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-              </ul>
-            </li>
-            <hr style="color: white;"/>
-          } 
+            } 
           @if(!activeUser){
             <div>
               <li>
-                <a class="nav-link" [routerLink]="['/login']" (click)="closeOffcanvas()">Login/Register</a>
+                <a class="nav-link" [routerLink]="['/login']" (click)="closeOffcanvas()">Entrar al Yggdrasil</a>
               </li>
               <!-- <hr style="color: white;"/>
               <li>
                 <a class="nav-link" [routerLink]="['/register']" (click)="closeOffcanvas()">Register</a>
               </li> -->
-              <hr style="color: white;"/>
             </div> 
           }  
           @if(activeUser){
             <div>
               <li>
-                <a class="nav-link" (click)="logout()" (click)="closeOffcanvas()">LogOut</a>
+                <a class="nav-link" (click)="logout()" (click)="closeOffcanvas()">Volver a Midgard</a>
               </li>
             </div>     
           }          

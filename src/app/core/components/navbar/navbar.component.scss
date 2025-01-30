@@ -14,7 +14,7 @@ span, h1, a, h5 {
 
 .nav-link:hover,
 .nav-link:focus {
-    color: #9fa11c; /* Color de texto al pasar el mouse o al estar enfocado */
+    color: #62318f; /* Color de texto al pasar el mouse o al estar enfocado */
 }
 
 .nav-link.active {
@@ -93,7 +93,9 @@ span, h1, a, h5 {
   #main-navbar.visible {
     transform: translateY(0);
   }
-  
+  .backgroundNavbar{
+    background-color: #a855f7;
+  }
 //Transition to remove the navbar
   
   @media screen and (max-width: 768px) {
