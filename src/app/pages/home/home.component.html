@@ -1,11 +1,13 @@
 <main>
   <!-- Section One -->
-  <section class="section-one vh-100 d-flex flex-column flex-lg-row bg-light">
+  <section class="section-one min-vh-100 d-flex flex-column flex-lg-row bg-light py-5">
+
     <div class="m-4 d-flex justify-content-center align-items-center">
       <img
         class="img-fluid p-3"
         src="https://res.cloudinary.com/duvwrecw1/image/upload/v1737999026/AlbedoBase_XL_a_16_years_old_kid_as_a_wizard_Blue_eyes_and_blu_2_1_xy83yx.jpg"
         alt="zoen1"
+        style="max-height: 60vh; object-fit: contain;"
       />
     </div>
     <div class="d-flex flex-column justify-content-center p-4">
@@ -29,12 +31,13 @@
   </section>
 
   <!-- Section Two -->
-  <section class="section-two vh-100 d-flex flex-column flex-lg-row bg-secondary text-white">
+  <section class="section-two min-vh-100 d-flex flex-column flex-lg-row bg-light py-5">
     <div class="m-4 d-flex justify-content-center align-items-center">
       <img
         class="img-fluid p-3"
         src="https://res.cloudinary.com/duvwrecw1/image/upload/v1738005231/AlbedoBase_XL_Imagine_a_mystical_Viking_village_where_powerful_1_ditel6.jpg"
         alt="zoen2"
+        style="max-height: 60vh; object-fit: contain;"
       />
     </div>
     <div class="d-flex flex-column justify-content-center p-4">
@@ -58,12 +61,13 @@
   </section>
 
   <!-- Section Three -->
-  <section class="section-three vh-100 d-flex flex-column flex-lg-row bg-dark text-white">
+  <section class="section-three min-vh-100 d-flex flex-column flex-lg-row bg-light py-5">
     <div class="m-4 d-flex justify-content-center align-items-center">
       <img
         class="img-fluid p-3"
         src="https://res.cloudinary.com/duvwrecw1/image/upload/v1738007451/AlbedoBase_XL_Create_an_image_of_a_threeheaded_raven_each_head_2_mqebgl.jpg"
         alt="zoen3"
+        style="max-height: 60vh; object-fit: contain;"
       />
     </div>
     <div class="d-flex flex-column justify-content-center p-4">
@@ -79,8 +83,16 @@
   </section>
   <section>
     <div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
       <h2 class="text-center display-4">Elige tu forma de cuervo</h2>
-      <ul class="d-flex flex-column flex-lg-row justify-content-center list-unstyled">
+      @if(!activeUser){
+        <a [routerLink]="['/gallery']">        
+          <p-button  label="Accede a tu Ygdrassil o crea el tuyo propio" severity="help"></p-button>
+        </a>
+      }
+    </div>
+      <ul class="d-flex flex-column flex-lg-row justify-content-center list-unstyled"
+      [ngClass]="{ 'blur-effect': !activeUser }">
           @for (crow of crowList; track crow.title){
             <li class="col-lg-3 col-sm-12 mb-4" [id]="crow.id">
               <a [routerLink]="['gallery']" class="text-decoration-none text-dark">
