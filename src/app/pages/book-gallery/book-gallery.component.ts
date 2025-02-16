@@ -3,9 +3,10 @@ import { BooksApiService } from '../../core/services/books-api/books-api.service
 import { timer } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { Skeleton } from 'primeng/skeleton';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-book-gallery',
-  imports: [NgIf, Skeleton],
+  imports: [NgIf, Skeleton, RouterModule],
   templateUrl: './book-gallery.component.html',
   styleUrl: './book-gallery.component.scss'
 })

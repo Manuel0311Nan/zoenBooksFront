@@ -26,22 +26,25 @@
       </div>
     </div>
   
-    <!-- Mostrar los datos reales cuando isLoading sea false -->
     <ng-template #bookList>
       <div *ngIf="books.length > 0; else preloadContent">
         <div class="row">
           @for (book of books; track book.title){
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
               <div class="book-card p-3 bg-white shadow-sm">
-                <img [src]="book.image" alt="Imagen de libro" class="book-img mb-2"/>
-                <h3>{{ book.title }}</h3>
-                <p>{{ book.description }}</p>
+                <!-- Enlace a la vista de detalle -->
+                <a [routerLink]="['/book', book.id]" class="book-link">
+                  <img [src]="book.image" alt="Imagen de libro" class="book-img mb-2"/>
+                  <h3>{{ book.title }}</h3>
+                  <p>{{ book.description }}</p>
+                </a>
               </div>
             </div>
           }
         </div>
       </div>
     </ng-template>
+    
   
     <!-- Contenido precargado si la API no responde en 60s -->
     <ng-template #preloadContent>

@@ -1,1 +1,30 @@
-<p>book-detail works!</p>
+<div *ngIf="pages.length > 0; else noPages">
+    <h2>Páginas del libro</h2>
+    <div class="page-grid">
+      @for (page of pages; track $index) {
+        <div 
+          class="page-item" 
+          [ngClass]="{'unlocked': $index === 0, 'locked': $index !== 0}" 
+          (click)="openModal($index)">
+          <h3>Página {{ page.pageNumber }}</h3>
+          <p>{{ page.content.split(' ').slice(0, 10).join(' ') }}...</p>
+        </div>
+      }
+    </div>
+  </div>
+  
+  <!-- Modal de lectura -->
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeModal()">✖</button>
+      <h2>Página {{ currentPage?.pageNumber }}</h2>
+      <p>{{ currentPage?.content }}</p>
+      <p><strong>Opciones siguientes:</strong> {{ currentPage?.nextOptions }}</p>
+    </div>
+  </div>
+  
+  
+  <ng-template #noPages>
+    <p><em>Este libro aún no tiene páginas disponibles.</em></p>
+  </ng-template>
+  
