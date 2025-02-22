@@ -13,4 +13,7 @@ export class PagesApiService {
   getBookPages(bookId: number): Observable<any[]> {
     return this.httpClient.get<any[]>(`${environment.apiUrl}/api/book/${bookId}/pages`);
   }
+  getNextOptions(bookId: number, pageNumber: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${environment.apiUrl}/api/book/${bookId}/page/${pageNumber}/options`);
+  }
 }
