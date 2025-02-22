@@ -5,26 +5,62 @@
         <div 
           class="page-item" 
           [ngClass]="{'unlocked': $index === 0, 'locked': $index !== 0}" 
-          (click)="openModal($index)">
+          (click)="openModal($index)"
+          id="{{ page.pageNumber }}">
           <h3>Página {{ page.pageNumber }}</h3>
-          <p>{{ page.content.split(' ').slice(0, 10).join(' ') }}...</p>
         </div>
       }
     </div>
   </div>
-  
-  <!-- Modal de lectura -->
-  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="closeModal()">✖</button>
-      <h2>Página {{ currentPage?.pageNumber }}</h2>
-      <p>{{ currentPage?.content }}</p>
-      <p><strong>Opciones siguientes:</strong> {{ currentPage?.nextOptions }}</p>
+
+    <!-- Modal de lectura -->
+<div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">✖</button>
+    <h2>Página {{ currentPage?.pageNumber }}</h2>
+
+    <div class="modal-body">
+      @for(paged of paginatedContent; track $index){
+        <div 
+        class="page" 
+        [ngClass]="{'active': $index === currentPageIndex}">
+          <p [innerHTML]="paged"></p>
+        </div>
+      }
+
+    </div>
+
+    <div class="pagination-btns">
+      <button (click)="prevPage()" [disabled]="currentPageIndex === 0">Anterior</button>
+      
+      <button *ngIf="currentPageIndex < paginatedContent.length - 1" 
+              (click)="nextPage()">Siguiente</button>
+
+      <button *ngIf="currentPageIndex === paginatedContent.length - 1" 
+              (click)="openNextOptionsModal()">Página Concluida</button>
     </div>
   </div>
+</div>
+
+<!-- Modal de opciones siguientes -->
+<div *ngIf="showNextOptionsModal" class="modal-overlay" (click)="closeNextOptionsModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeNextOptionsModal()">✖</button>
+    <h2>Elige tu próximo paso</h2>
+
+    <ul class="options-list">
+      @for(option of nextOptions; track $index){
+        <li>
+          <button (click)="goToNextPage(option.pageNumber)">
+            {{ option.description }}
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+</div>
   
   
   <ng-template #noPages>
     <p><em>Este libro aún no tiene páginas disponibles.</em></p>
   </ng-template>
-  
