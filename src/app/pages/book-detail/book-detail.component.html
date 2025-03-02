@@ -4,9 +4,9 @@
       @for (page of pages; track $index) {
         <div 
           class="page-item" 
-          [ngClass]="{'unlocked': $index === 0, 'locked': $index !== 0}" 
-          (click)="openModal($index)"
-          id="{{ page.pageNumber }}">
+          [ngClass]="{'unlocked': page.unlocked, 'locked': !page.unlocked}" 
+         (click)="page.unlocked ? openModal($index) : null"
+         id="{{ page.pageNumber }}">
           <h3>Página {{ page.pageNumber }}</h3>
         </div>
       }
@@ -52,7 +52,7 @@
       @for(option of nextOptions; track $index){
         <li>
           <button (click)="goToNextPage(option.pageNumber)">
-            {{ option.description }}
+           Página {{ option.pageNumber }}
           </button>
         </li>
       }

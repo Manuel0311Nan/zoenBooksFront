@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PagesApiService } from '../../core/services/pages-api/pages-api.service';
 import { NgIf,NgClass } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-book-detail',
   imports: [NgIf,NgClass],
@@ -18,10 +19,12 @@ export class BookDetailComponent {
   currentPageIndex = 0;
   paginatedContent: string[] = [];
   nextOptions: any[] = [];
+  
 
   constructor(
     private route: ActivatedRoute,
-    private pagesApiService: PagesApiService
+    private pagesApiService: PagesApiService,
+    private cdr: ChangeDetectorRef
   ) {}
   openModal(index: number) {
     if (index === 0) {
@@ -71,7 +74,9 @@ export class BookDetailComponent {
       next: (response) => {
         this.nextOptions = response.map((option: string) => {
           //TODO: Lee bien el next options, pero no muestra los botones con las opciones
-          let match = option.match(/^Página (\d+), (.+)$/);
+          console.log("Texto de opción original:", option);
+          let match = option.match(/^Página (\d+)(?:, (.+))?$/);
+          console.log("Resultado del match:", match);
           return match ? { pageNumber: parseInt(match[1]), description: match[2] } : null;
         }).filter(option => option !== null);
   
@@ -98,11 +103,21 @@ export class BookDetailComponent {
   }
 
   goToNextPage(pageNumber: number) {
-    this.showNextOptionsModal = false; // Cierra el modal de opciones
+    this.showNextOptionsModal = false;
   
     let nextPageIndex = this.pages.findIndex(p => p.pageNumber === pageNumber);
+
     if (nextPageIndex !== -1) {
-      this.openModal(nextPageIndex); // Abre la página correcta
+      this.pages[nextPageIndex].unlocked = true;
+
+      // Guarda el estado en localStorage
+      localStorage.setItem("unlockedPages", JSON.stringify(this.pages.map(p => p.unlocked)));
+  
+      // 🚀 **Forzamos la detección de cambios**
+      this.cdr.detectChanges();
+  
+
+      this.openModal(nextPageIndex);
     } else {
       console.error("No se encontró la página:", pageNumber);
     }
@@ -114,11 +129,19 @@ export class BookDetailComponent {
 
   ngOnInit() {
     this.bookId = Number(this.route.snapshot.paramMap.get('id'));
-
+  
     this.pagesApiService.getBookPages(this.bookId).subscribe({
-      next: (response) => this.pages = response,
-      error: (error) => console.error('Error al obtener las páginas:', error)
-    });
+      next: (response) => {
+        const unlockedPages = JSON.parse(localStorage.getItem("unlockedPages") || "[]");
 
+        this.pages = response.map((page, index) => ({
+          ...page,
+          unlocked: unlockedPages[index] || index === 0,
+        }));
+  
+        console.log("Páginas cargadas:", this.pages);
+      },
+      error: (error) => console.error("Error al obtener las páginas:", error)
+    });
   }
 }
